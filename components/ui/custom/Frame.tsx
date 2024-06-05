@@ -225,7 +225,7 @@ const Frame = ({ userAccount }: { userAccount: any }) => {
 			</div>
 
 			<div className='flex w-full flex-wrap self-center'>
-				<div className='flex w-full gap-4'>
+				<div className='flex flex-col md:flex-row md:justify-between w-full gap-4'>
 					<div className='flex flex-col gap-2'>
 						<h1 className='text-2xl font-bold'>{playlistName}</h1>
 						{tracksInfos.length > 0 && (
