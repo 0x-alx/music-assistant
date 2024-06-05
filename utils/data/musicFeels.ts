@@ -1,0 +1,22 @@
+export const musicFeels = [
+    "happy",
+    "sad",
+    "energetic",
+    "relaxing",
+    "romantic",
+    "melancholic",
+    "uplifting",
+    "calm",
+    "exciting",
+    "nostalgic",
+    "reflective",
+    "hopeful",
+    "tense",
+    "dreamy",
+    "aggressive",
+    "peaceful",
+    "joyful",
+    "dark",
+    "playful",
+    "mysterious"
+]
