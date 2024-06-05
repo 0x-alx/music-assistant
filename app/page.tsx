@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authConfig } from "./api/auth/[...nextauth]/route";
+import { authConfig } from "@/lib/authConfig";
 import { PrismaClient } from "@prisma/client";
 import Frame from "@/components/ui/custom/Frame";
 
