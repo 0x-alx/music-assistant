@@ -36,6 +36,7 @@ const Frame = ({ userAccount }: { userAccount: any }) => {
 	const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
 	const [selectedFeels, setSelectedFeels] = useState<string[]>([]);
 	const [hovered, setIsHovered] = useState("");
+	const [displayArray, setDisplayArray] = useState(false);
 
 	const generatePrompt = () => {
 		return `Suggest me 10 tracks. ${
@@ -50,6 +51,7 @@ const Frame = ({ userAccount }: { userAccount: any }) => {
 	};
 
 	const generatePlaylist = async () => {
+		setDisplayArray(true);
 		const prompt = generatePrompt();
 		console.log(prompt);
 		setLoading(true);
@@ -250,10 +252,12 @@ const Frame = ({ userAccount }: { userAccount: any }) => {
 						</Button>
 					)}
 				</div>
-				<TrackArray
-					data={tracksInfos}
-					isLoading={loading}
-				/>
+				{displayArray && (
+					<TrackArray
+						data={tracksInfos}
+						isLoading={loading}
+					/>
+				)}
 			</div>
 		</div>
 	);
