@@ -48,63 +48,66 @@ const TrackArray = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
 	};
 
 	return (
-		<Table className='w-full'>
-			<TableHeader>
-				<TableRow>
-					<TableHead>#</TableHead>
-					<TableHead>Titre</TableHead>
-				</TableRow>
-			</TableHeader>
+		<div>
+			<Table className='w-full'>
+				<TableHeader>
+					<TableRow>
+						<TableHead>#</TableHead>
+						<TableHead>Titre</TableHead>
+					</TableRow>
+				</TableHeader>
 
-			<TableBody className='overflow-y-scroll'>
-				{isLoading &&
-					[...Array(5)].map((_, index) => (
-						<TableRow key={index}>
-							<TableCell>
-								<Skeleton className='size-[14px] rounded-sm' />
-							</TableCell>
-							<TableCell className='flex flex-row gap-2'>
-								<Skeleton className='size-[50px] rounded-xl' />
-								<div className='flex flex-col gap-1'>
-									<Skeleton className='h-[14px] w-[250px] rounded-xl' />
-									<Skeleton className='h-[12px] w-[250px] rounded-xl' />
-								</div>
-							</TableCell>
-						</TableRow>
-					))}
-				{!isLoading &&
-					data.map((track: any, index: number) => (
-						<TableRow
-							className={`${
-								playingTrack?.id === track.id && "bg-muted/50"
-							} cursor-pointer`}
-							key={track.id}
-							onMouseEnter={() => handleMouseEnter(track)}
-							onMouseLeave={() => setSelectedTrack(null)}
-							onClick={() => handlePlay(track)}
-						>
-							<TableCell>
-								{DisplayPlayButton(track, index)}
-							</TableCell>
-							<TableCell className='flex flex-row gap-2'>
-								<Image
-									src={track.album.images[0].url}
-									alt={track.name}
-									width={50}
-									height={50}
-									className='rounded-md'
-								/>
-								<div className='truncate'>
-									<p className='text-sm'>{track.name}</p>
-									<p className='text-xs'>
-										{track.artists[0].name}
-									</p>
-								</div>
-							</TableCell>
-						</TableRow>
-					))}
-			</TableBody>
-		</Table>
+				<TableBody className='overflow-y-scroll'>
+					{isLoading &&
+						[...Array(5)].map((_, index) => (
+							<TableRow key={index}>
+								<TableCell>
+									<Skeleton className='size-[14px] rounded-sm' />
+								</TableCell>
+								<TableCell className='flex flex-row gap-2'>
+									<Skeleton className='size-[50px] rounded-xl' />
+									<div className='flex flex-col gap-1'>
+										<Skeleton className='h-[14px] w-[250px] rounded-xl' />
+										<Skeleton className='h-[12px] w-[250px] rounded-xl' />
+									</div>
+								</TableCell>
+							</TableRow>
+						))}
+					{!isLoading &&
+						data.map((track: any, index: number) => (
+							<TableRow
+								className={`${
+									playingTrack?.id === track.id &&
+									"bg-muted/50"
+								} cursor-pointer text-white`}
+								key={track.id}
+								onMouseEnter={() => handleMouseEnter(track)}
+								onMouseLeave={() => setSelectedTrack(null)}
+								onClick={() => handlePlay(track)}
+							>
+								<TableCell>
+									{DisplayPlayButton(track, index)}
+								</TableCell>
+								<TableCell className='flex flex-row gap-2'>
+									<Image
+										src={track.album.images[0].url}
+										alt={track.name}
+										width={50}
+										height={50}
+										className='rounded-md'
+									/>
+									<div className='truncate'>
+										<p className='text-sm'>{track.name}</p>
+										<p className='text-xs'>
+											{track.artists[0].name}
+										</p>
+									</div>
+								</TableCell>
+							</TableRow>
+						))}
+				</TableBody>
+			</Table>
+		</div>
 	);
 };
 

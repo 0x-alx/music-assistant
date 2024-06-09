@@ -1,4 +1,4 @@
-[
+export const fakeTracks = [
 	{
 		"album": {
 			"album_type": "album",

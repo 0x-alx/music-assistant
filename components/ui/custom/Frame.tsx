@@ -5,7 +5,7 @@ import { Input } from "../input";
 import { Button } from "../button";
 import { Toaster } from "../sonner";
 import { toast } from "sonner";
-
+import localFont from "next/font/local";
 import { OpenAI } from "openai";
 import {
 	addTrackToPlaylist,
@@ -15,7 +15,7 @@ import {
 	searchSpotifyTrack,
 } from "../../../utils/hooks/spotifyHooks";
 
-import data from "../../../utils/data/tracks.json";
+import data from "../../../utils/data/tracks";
 import TrackArray from "./TrackArray";
 import { Slider } from "../slider";
 import { Badge } from "../badge";
@@ -23,12 +23,15 @@ import { styleList } from "../../../utils/data/styleList";
 import { musicFeels } from "../../../utils/data/musicFeels";
 import Image from "next/image";
 import { X } from "lucide-react";
+import { useSession } from "next-auth/react";
 
-const Frame = ({ userAccount }: { userAccount: any }) => {
+const Frame = () => {
+	const { data: session } = useSession();
 	const openai = new OpenAI({
 		apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 		dangerouslyAllowBrowser: true,
 	});
+
 	const [tracksInfos, setTracksInfos] = useState([]);
 	const [prompt, setPrompt] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -150,7 +153,12 @@ const Frame = ({ userAccount }: { userAccount: any }) => {
 					className='w-full'
 					onChange={(e) => setPrompt(e.target.value)}
 				/>
-				<Button onClick={generatePlaylist}>Generate</Button>
+				<Button
+					onClick={generatePlaylist}
+					disabled={!session}
+				>
+					{session ? "Generate" : "Please connect"}
+				</Button>
 			</div>
 			<Slider
 				defaultValue={[10]}

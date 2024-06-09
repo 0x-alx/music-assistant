@@ -4,19 +4,51 @@ import { SiteConfig } from "../lib/site-config";
 import { cn } from "../lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, createContext } from "react";
 import { Providers } from "./Providers";
 import "./globals.css";
 import { Header } from "../components/layout/Header";
-
-const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
+import { getServerSession } from "next-auth";
+import { PrismaClient } from "@prisma/client";
+import { authConfig } from "@/lib/authConfig";
+import localFont from "@next/font/local";
+const calSans = localFont({
+	src: [
+		{
+			path: "../public/fonts/CalSans-SemiBold.ttf",
+			weight: "600",
+		},
+	],
+	variable: "--font-calSans",
+});
 
 export const metadata: Metadata = {
 	title: SiteConfig.title,
 	description: SiteConfig.description,
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default async function RootLayout({ children }: PropsWithChildren) {
+	const session = await getServerSession(authConfig);
+	const prisma = new PrismaClient();
+
+	const getUserInfos = async () => {
+		if (session && session.user) {
+			const findUserInfo = await prisma.user.findUnique({
+				where: { email: session.user.email },
+			});
+			return findUserInfo;
+		}
+	};
+	console.log("session", session);
+	const userInfos = await getUserInfos();
+	const userAccount = await prisma.account.findFirst({
+		where: { userId: userInfos?.id },
+	});
+
+	// const spotifyProfile = await getSpotifyProfile({
+	// 	accessToken: userAccount?.access_token!,
+	// });
+
 	return (
 		<>
 			<html
@@ -28,7 +60,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
 				<body
 					className={cn(
 						"h-full bg-background font-sans antialiased",
-						fontSans.variable
+
+						calSans.variable
 					)}
 				>
 					<Providers>

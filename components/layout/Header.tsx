@@ -6,16 +6,16 @@ import LoginButton from "../ui/custom/LoginButton";
 
 export function Header() {
 	return (
-		<header className='sticky top-0 z-40 w-full border-b bg-background'>
+		<header className='fixed top-0 z-40 w-full'>
 			<div className='container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0'>
-				<div className='flex gap-6 md:gap-10'>
+				<div className='flex gap-6 md:gap-10 text-white'>
 					<h3>{SiteConfig.title}</h3>
 				</div>
 
 				<div className='flex flex-1 items-center justify-end space-x-4'>
-					<nav className='flex items-center space-x-1'>
-						<ThemeToggle />
+					<nav className='flex items-center gap-4 space-x-1'>
 						<LoginButton />
+						<ThemeToggle />
 					</nav>
 				</div>
 			</div>

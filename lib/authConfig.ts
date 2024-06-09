@@ -63,6 +63,8 @@ export const authConfig = {
                     session.error = "RefreshAccessTokenError"
                 }
             }
+            session.user.id = user.id
+            session.access_token = spotifyAccount.access_token
             return session
         },
     },
