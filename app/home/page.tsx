@@ -13,15 +13,17 @@ export default function Home() {
 	const { searchResult } = useSearchResultStore();
 
 	const [showTopBar, setShowTopBar] = useState(false);
-	const scrollContainerRef = useRef(null);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		const scrollContainer = scrollContainerRef.current;
+		if (!scrollContainer) return;
+
 		const handleScroll = () => {
-			const isPastThreshold = scrollContainerRef.current.scrollTop > 200; // ajustez 100 à la valeur souhaitée
+			const isPastThreshold = scrollContainer.scrollTop > 200;
 			setShowTopBar(isPastThreshold);
 		};
 
-		const scrollContainer = scrollContainerRef.current;
 		scrollContainer.addEventListener("scroll", handleScroll);
 
 		return () => {
