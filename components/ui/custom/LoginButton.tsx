@@ -16,13 +16,9 @@ import { LoaderCircle } from "lucide-react";
 
 const LoginButton = () => {
 	const { data: session, status } = useSession();
-	const [isLoading, setIsLoading] = useState(false);
 
 	const connectToSpotify = async () => {
-		setIsLoading(true);
-		await signIn("spotify").then(() => {
-			setIsLoading(false);
-		});
+		await signIn("spotify").then(() => {});
 	};
 
 	if (session) {
