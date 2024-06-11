@@ -65,10 +65,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
 					)}
 				>
 					<Providers>
-						<div className='relative flex min-h-screen flex-col'>
-							<Header />
-							<div className='flex-1'>{children}</div>
-						</div>
+						<Header />
+						<div className='flex-1'>{children}</div>
+
 						<TailwindIndicator />
 					</Providers>
 				</body>
