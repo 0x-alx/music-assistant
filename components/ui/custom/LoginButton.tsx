@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../button";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -12,10 +12,18 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useSearchResultStore from "@/store/useSearchResultStore";
+import { LoaderCircle } from "lucide-react";
 
 const LoginButton = () => {
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
+	const [isLoading, setIsLoading] = useState(false);
+
+	const connectToSpotify = async () => {
+		setIsLoading(true);
+		await signIn("spotify").then(() => {
+			setIsLoading(false);
+		});
+	};
 
 	if (session) {
 		return (
@@ -43,17 +51,22 @@ const LoginButton = () => {
 	} else {
 		return (
 			<Button
-				onClick={async () => await signIn("spotify")}
+				onClick={connectToSpotify}
 				className='font-bold'
 			>
-				Spotify Connect
-				<Image
-					src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
-					width={20}
-					height={20}
-					alt='Spotify'
-					className='ml-2'
-				/>
+				{status === "loading" ? "Connecting" : "Spotify Connect"}
+				{status === "loading" && (
+					<LoaderCircle className='ml-2 h-4 w-4 animate-spin' />
+				)}
+				{status === "unauthenticated" && (
+					<Image
+						src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+						width={20}
+						height={20}
+						alt='Spotify'
+						className='ml-2'
+					/>
+				)}
 			</Button>
 		);
 	}
