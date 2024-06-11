@@ -8,6 +8,12 @@ import Image from "next/image";
 import useSearchResultStore from "@/store/useSearchResultStore";
 import { useEffect, useRef, useState } from "react";
 import usePlaylistNameStore from "@/store/usePlaylistName";
+import {
+	addTrackToPlaylist,
+	createPlaylist,
+	getSpotifyProfile,
+} from "@/utils/hooks/spotifyHooks";
+import { toast } from "sonner";
 
 export default function Home() {
 	const { data: session } = useSession();
@@ -32,6 +38,33 @@ export default function Home() {
 			scrollContainer.removeEventListener("scroll", handleScroll);
 		};
 	}, []);
+
+	const addPlaylistToSpotify = async () => {
+		const spotifyProfile = await getSpotifyProfile({
+			accessToken: session?.access_token!,
+		});
+
+		const playlist = await createPlaylist({
+			accessToken: session?.access_token!,
+			userId: spotifyProfile.id,
+			name: playlistName,
+		});
+
+		const trackListIds = searchResult.map((track: any) => track.uri);
+
+		await addTrackToPlaylist({
+			accessToken: session?.access_token!,
+			playlistId: playlist.id,
+			trackId: trackListIds,
+		}).then(
+			() => {
+				toast("Playlist successfully added to Spotify");
+			},
+			() => {
+				toast("An error occurred while adding the playlist to Spotify");
+			}
+		);
+	};
 
 	return (
 		<div className='flex w-full min-h-screen flex-col items-center justify-between p-4 lg:px-48 lg:py-24 '>
@@ -62,7 +95,10 @@ export default function Home() {
 				<div className='w-full h-1/3 max-h-[400px] flex items-end p-4 gap-6'>
 					<div className='size-40 bg-black rounded-md'></div>
 					<div className='flex flex-col gap-2'>
-						<Button className='font-bold max-w-[200px]'>
+						<Button
+							className='font-bold max-w-[200px]'
+							onClick={addPlaylistToSpotify}
+						>
 							Add to Spotify
 							<Image
 								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
