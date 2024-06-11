@@ -37,7 +37,7 @@ export const authConfig = {
                     const response = await axios.post("https://accounts.spotify.com/api/token", params, {
                         headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     })
-                    console.log('response:', response.data)
+                    // console.log('response:', response.data)
                     const tokens = response.data
 
 
