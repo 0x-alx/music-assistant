@@ -33,7 +33,7 @@ const Search = () => {
 	const [displayArray, setDisplayArray] = useState(false);
 
 	const generatePrompt = () => {
-		return `Suggest me 10 tracks. Context: ${value}. You must generate a public name for this playlist, and provide me with your answer in the following JSON format: {playlistName: 'playlistName', titles: [{title: 'title', artist: 'artist'}]}`;
+		return `Suggest me 15 tracks. Context: ${value}. You must generate a public name for this playlist, and provide me with your answer in the following JSON format: {playlistName: 'playlistName', titles: [{title: 'title', artist: 'artist'}]}`;
 	};
 
 	const generatePlaylist = async () => {
