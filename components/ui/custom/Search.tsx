@@ -6,6 +6,9 @@ import { OpenAI } from "openai";
 import { getTracks, searchSpotifyTrack } from "@/utils/hooks/spotifyHooks";
 import useSearchResultStore from "@/store/useSearchResultStore";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import usePlaylistNameStore from "@/store/usePlaylistName";
+import { LoaderCircle } from "lucide-react";
 
 const Search = () => {
 	const { data: session } = useSession();
@@ -13,15 +16,20 @@ const Search = () => {
 		apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 		dangerouslyAllowBrowser: true,
 	});
-	const { setSearchResult, setIsLoading } = useSearchResultStore() as {
-		setSearchResult: (searchResult: any) => void;
-		setIsLoading: (isLoading: boolean) => void;
+	const { setSearchResult, isLoading, setIsLoading } =
+		useSearchResultStore() as {
+			setSearchResult: (searchResult: any) => void;
+			setIsLoading: (isLoading: boolean) => void;
+			isLoading: boolean;
+		};
+	const { setPlaylistName } = usePlaylistNameStore() as {
+		setPlaylistName: (playlistName: string) => void;
 	};
-
+	const router = useRouter();
 	const [value, setValue] = useState("");
 	const [tracksInfos, setTracksInfos] = useState([]);
-	const [loading, setLoading] = useState(false);
-	const [playlistName, setPlaylistName] = useState("");
+
+	// const [playlistName, setPlaylistName] = useState("");
 	const [displayArray, setDisplayArray] = useState(false);
 
 	const generatePrompt = () => {
@@ -31,7 +39,7 @@ const Search = () => {
 	const generatePlaylist = async () => {
 		setDisplayArray(true);
 		const prompt = generatePrompt();
-		console.log(prompt);
+
 		setIsLoading(true);
 
 		const GPTResponse = await openai.chat.completions.create({
@@ -75,7 +83,7 @@ const Search = () => {
 		});
 		setSearchResult(tracksInformations.tracks);
 		setIsLoading(false);
-		console.log(tracksInformations.tracks);
+		router.push("/playlist");
 	};
 
 	return (
@@ -89,9 +97,12 @@ const Search = () => {
 			/>
 			<Button
 				onClick={generatePlaylist}
-				disabled={loading || !session?.access_token}
+				disabled={isLoading || !session?.access_token}
 			>
-				Generate
+				{isLoading ? "Generating" : "Generate"}
+				{isLoading && (
+					<LoaderCircle className='ml-2 h-4 w-4 animate-spin' />
+				)}
 			</Button>
 		</div>
 	);

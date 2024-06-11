@@ -26,7 +26,7 @@ const TrackArray = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
 		} else if (selectedTrack?.id === track.id) {
 			return <Play className='size-[14px]' />;
 		} else {
-			return index + 1;
+			return <p className='text-sm'>{index + 1}</p>;
 		}
 	};
 
@@ -58,21 +58,6 @@ const TrackArray = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
 				</TableHeader>
 
 				<TableBody className='overflow-y-scroll'>
-					{isLoading &&
-						[...Array(5)].map((_, index) => (
-							<TableRow key={index}>
-								<TableCell>
-									<Skeleton className='size-[14px] rounded-sm' />
-								</TableCell>
-								<TableCell className='flex flex-row gap-2'>
-									<Skeleton className='size-[50px] rounded-xl' />
-									<div className='flex flex-col gap-1'>
-										<Skeleton className='h-[14px] w-[250px] rounded-xl' />
-										<Skeleton className='h-[12px] w-[250px] rounded-xl' />
-									</div>
-								</TableCell>
-							</TableRow>
-						))}
 					{!isLoading &&
 						data.map((track: any, index: number) => (
 							<TableRow
@@ -96,11 +81,26 @@ const TrackArray = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
 										height={50}
 										className='rounded-md'
 									/>
-									<div className='truncate'>
-										<p className='text-sm'>{track.name}</p>
-										<p className='text-xs'>
+									<div className='truncate flex flex-col'>
+										<a
+											href={track.external_urls.spotify}
+											target='_blank'
+											rel='noreferrer'
+											className='text-sm hover:underline'
+										>
+											{track.name}
+										</a>
+										<a
+											href={
+												track.artists[0].external_urls
+													.spotify
+											}
+											target='_blank'
+											rel='noreferrer'
+											className='text-xs hover:underline'
+										>
 											{track.artists[0].name}
-										</p>
+										</a>
 									</div>
 								</TableCell>
 							</TableRow>
