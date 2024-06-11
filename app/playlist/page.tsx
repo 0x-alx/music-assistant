@@ -7,10 +7,12 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import useSearchResultStore from "@/store/useSearchResultStore";
 import { useEffect, useRef, useState } from "react";
+import usePlaylistNameStore from "@/store/usePlaylistName";
 
 export default function Home() {
 	const { data: session } = useSession();
 	const { searchResult } = useSearchResultStore();
+	const { playlistName } = usePlaylistNameStore();
 
 	const [showTopBar, setShowTopBar] = useState(false);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -31,7 +33,6 @@ export default function Home() {
 		};
 	}, []);
 
-	console.log(showTopBar);
 	return (
 		<div className='flex w-full min-h-screen flex-col items-center justify-between p-4 lg:px-48 lg:py-24 '>
 			<div
@@ -72,18 +73,17 @@ export default function Home() {
 							/>
 						</Button>
 						<h2 className='text-white text-5xl font-bold'>
-							SpotifAI - Country Roads
+							{playlistName}
 						</h2>
 						<p className='text-white text-sm'>
-							Made for {session?.user?.name} - 10 tracks, 10min
-							44s
+							{searchResult.length} tracks, 10min 44s
 						</p>
 					</div>
 				</div>
 				<div className='w-full backdrop-blur-sm bg-black/30 p-4'>
 					<div className='flex flex-col gap-4'>
 						<TrackArray
-							data={fakeTracks}
+							data={searchResult}
 							isLoading={false}
 						/>
 					</div>
