@@ -14,8 +14,12 @@ import {
 	getSpotifyProfile,
 } from "@/utils/hooks/spotifyHooks";
 import { toast } from "sonner";
+import { useMediaQuery } from "react-responsive";
+import { Plus } from "lucide-react";
 
 export default function Home() {
+	const isMobile = useMediaQuery({ maxWidth: 768 });
+
 	const { data: session } = useSession();
 	const { searchResult } = useSearchResultStore();
 	const { playlistName } = usePlaylistNameStore();
@@ -79,7 +83,7 @@ export default function Home() {
 	return (
 		<div className='flex w-full min-h-screen flex-col items-center justify-between px-4 py-24 lg:px-48 lg:py-24 '>
 			<div
-				className='relative w-full h-full lg:max-h-[800px] bg-gradient-to-b from-blue-700 to-neutral-900 rounded-xl overflow-scroll'
+				className='relative w-full h-full max-h-[80vh] lg:max-h-[800px] bg-gradient-to-b from-blue-700 to-neutral-900 rounded-xl overflow-scroll'
 				ref={scrollContainerRef}
 			>
 				{showTopBar && (
@@ -90,7 +94,7 @@ export default function Home() {
 								{playlistName}
 							</h2>
 						</div>
-						<Button className='font-bold max-w-[200px]'>
+						<Button className='font-bold max-w-[200px] hidden lg:flex'>
 							Add to Spotify
 							<Image
 								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
@@ -100,13 +104,23 @@ export default function Home() {
 								className='ml-2'
 							/>
 						</Button>
+						<Button className='font-bold w-fit lg:hidden px-2'>
+							<Plus className='size-4' />
+							<Image
+								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+								width={16}
+								height={16}
+								alt='Spotify'
+								className='ml-2'
+							/>
+						</Button>
 					</div>
 				)}
-				<div className='w-full h-fit lg:h-1/3 lg:max-h-[400px] flex items-center lg:items-end p-4 gap-6'>
-					<div className='size-20 lg:size-40 bg-black rounded-md'></div>
-					<div className='flex flex-col gap-2'>
+				<div className='w-full h-fit lg:h-1/3 lg:max-h-[400px] flex items-center lg:items-end p-4 gap-4 lg:gap-6'>
+					<div className='size-20 min-w-20 lg:size-40 lg:min-w-40 bg-black rounded-md'></div>
+					<div className='flex w-full flex-col gap-2'>
 						<Button
-							className='font-bold max-w-[200px]'
+							className='font-bold max-w-[200px] hidden lg:flex'
 							onClick={addPlaylistToSpotify}
 						>
 							Add to Spotify
@@ -118,19 +132,34 @@ export default function Home() {
 								className='ml-2'
 							/>
 						</Button>
+
 						<h2 className='text-white text-2xl lg:text-5xl font-bold'>
 							{playlistName}
 						</h2>
-						<p className='text-white text-sm'>
-							{searchResult.length} tracks -{" "}
-							{millisToMinutesAndSeconds(
-								searchResult.reduce(
-									(acc: any, track: { duration_ms: any }) =>
-										acc + track.duration_ms,
-									0
-								)
-							)}
-						</p>
+						<div className='flex items-center justify-between'>
+							<p className='text-white text-sm'>
+								{searchResult.length} tracks -{" "}
+								{millisToMinutesAndSeconds(
+									searchResult.reduce(
+										(
+											acc: any,
+											track: { duration_ms: any }
+										) => acc + track.duration_ms,
+										0
+									)
+								)}
+							</p>
+							<Button className='font-bold w-fit lg:hidden px-2'>
+								<Plus className='size-4' />
+								<Image
+									src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+									width={16}
+									height={16}
+									alt='Spotify'
+									className='ml-2'
+								/>
+							</Button>
+						</div>
 					</div>
 				</div>
 				<div className='w-full backdrop-blur-sm bg-black/30 p-4'>
