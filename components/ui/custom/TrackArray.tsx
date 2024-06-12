@@ -26,7 +26,7 @@ const TrackArray = ({ data, isLoading }: { data: any; isLoading: boolean }) => {
 		} else if (selectedTrack?.id === track.id) {
 			return <Play className='size-[14px]' />;
 		} else {
-			return <p className='text-sm'>{index + 1}</p>;
+			return <p className='text-sm min-w-[14px]'>{index + 1}</p>;
 		}
 	};
 
