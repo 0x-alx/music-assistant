@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import usePlaylistNameStore from "@/store/usePlaylistName";
 import { LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const Search = () => {
 	const { data: session } = useSession();
@@ -71,7 +72,13 @@ const Search = () => {
 					accessToken: session?.access_token!,
 					query: track.title + " " + track.artist,
 				});
-				trackListIds.push(result.tracks.items[0].id);
+				if (result.tracks.items.length === 0) {
+					toast.error("Track not found", {
+						description: `${track.title} - ${track.artist}`,
+					});
+				} else {
+					trackListIds.push(result.tracks.items[0].id);
+				}
 			}
 		);
 
@@ -82,8 +89,8 @@ const Search = () => {
 			trackIds: trackListIds,
 		});
 		setSearchResult(tracksInformations.tracks);
-		setIsLoading(false);
 		router.push("/playlist");
+		setIsLoading(false);
 	};
 
 	return (
