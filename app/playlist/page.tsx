@@ -14,12 +14,9 @@ import {
 	getSpotifyProfile,
 } from "@/utils/hooks/spotifyHooks";
 import { toast } from "sonner";
-import { useMediaQuery } from "react-responsive";
 import { Plus } from "lucide-react";
 
 export default function Home() {
-	const isMobile = useMediaQuery({ maxWidth: 768 });
-
 	const { data: session } = useSession();
 	const { searchResult } = useSearchResultStore();
 	const { playlistName } = usePlaylistNameStore();
