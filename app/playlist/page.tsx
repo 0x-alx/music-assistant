@@ -66,6 +66,14 @@ export default function Home() {
 		);
 	};
 
+	const millisToMinutesAndSeconds = (millis: number) => {
+		var minutes = Math.floor(millis / 60000);
+		var seconds = Math.round((millis % 60000) / 1000);
+		return seconds === 60
+			? minutes + 1 + "min"
+			: minutes + "min" + (seconds < 10 ? "0" : "") + seconds + "s";
+	};
+
 	return (
 		<div className='flex w-full min-h-screen flex-col items-center justify-between p-4 lg:px-48 lg:py-24 '>
 			<div
@@ -77,7 +85,7 @@ export default function Home() {
 						<div className='flex items-center gap-4'>
 							<div className='size-8 bg-black rounded-md'></div>
 							<h2 className='text-white text-3xl font-bold'>
-								SpotifAI - Country Roads
+								{playlistName}
 							</h2>
 						</div>
 						<Button className='font-bold max-w-[200px]'>
@@ -112,7 +120,14 @@ export default function Home() {
 							{playlistName}
 						</h2>
 						<p className='text-white text-sm'>
-							{searchResult.length} tracks, 10min 44s
+							{searchResult.length} tracks -{" "}
+							{millisToMinutesAndSeconds(
+								searchResult.reduce(
+									(acc: any, track: { duration_ms: any }) =>
+										acc + track.duration_ms,
+									0
+								)
+							)}
 						</p>
 					</div>
 				</div>
