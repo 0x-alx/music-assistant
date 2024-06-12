@@ -58,10 +58,12 @@ export default function Home() {
 			trackId: trackListIds,
 		}).then(
 			() => {
-				toast("Playlist successfully added to Spotify");
+				toast.success("Playlist successfully added to Spotify");
 			},
 			() => {
-				toast("An error occurred while adding the playlist to Spotify");
+				toast.error(
+					"An error occurred while adding the playlist to Spotify"
+				);
 			}
 		);
 	};
@@ -75,16 +77,16 @@ export default function Home() {
 	};
 
 	return (
-		<div className='flex w-full min-h-screen flex-col items-center justify-between p-4 lg:px-48 lg:py-24 '>
+		<div className='flex w-full min-h-screen flex-col items-center justify-between px-4 py-24 lg:px-48 lg:py-24 '>
 			<div
-				className='relative w-full h-full max-h-[800px] bg-gradient-to-b from-blue-700 to-neutral-900 rounded-xl overflow-scroll'
+				className='relative w-full h-full lg:max-h-[800px] bg-gradient-to-b from-blue-700 to-neutral-900 rounded-xl overflow-scroll'
 				ref={scrollContainerRef}
 			>
 				{showTopBar && (
 					<div className='sticky top-0 w-full z-10 flex items-center justify-between p-4 gap-4 bg-blue-700'>
 						<div className='flex items-center gap-4'>
 							<div className='size-8 bg-black rounded-md'></div>
-							<h2 className='text-white text-3xl font-bold'>
+							<h2 className='text-white text-xl lg:text-3xl font-bold'>
 								{playlistName}
 							</h2>
 						</div>
@@ -100,8 +102,8 @@ export default function Home() {
 						</Button>
 					</div>
 				)}
-				<div className='w-full h-1/3 max-h-[400px] flex items-end p-4 gap-6'>
-					<div className='size-40 bg-black rounded-md'></div>
+				<div className='w-full h-fit lg:h-1/3 lg:max-h-[400px] flex items-center lg:items-end p-4 gap-6'>
+					<div className='size-20 lg:size-40 bg-black rounded-md'></div>
 					<div className='flex flex-col gap-2'>
 						<Button
 							className='font-bold max-w-[200px]'
@@ -116,7 +118,7 @@ export default function Home() {
 								className='ml-2'
 							/>
 						</Button>
-						<h2 className='text-white text-5xl font-bold'>
+						<h2 className='text-white text-2xl lg:text-5xl font-bold'>
 							{playlistName}
 						</h2>
 						<p className='text-white text-sm'>
