@@ -14,7 +14,7 @@ import {
 	getSpotifyProfile,
 } from "@/utils/hooks/spotifyHooks";
 import { toast } from "sonner";
-import { Plus } from "lucide-react";
+import { CheckCircleIcon, Plus } from "lucide-react";
 
 export default function Home() {
 	const { data: session } = useSession();
@@ -22,6 +22,7 @@ export default function Home() {
 	const { playlistName } = usePlaylistNameStore();
 
 	const [showTopBar, setShowTopBar] = useState(false);
+	const [successfullAdd, setSuccessfullAdd] = useState(false);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -59,12 +60,13 @@ export default function Home() {
 			trackId: trackListIds,
 		}).then(
 			() => {
-				toast.success("Playlist successfully added to Spotify");
+				setSuccessfullAdd(true);
 			},
 			() => {
 				toast.error(
 					"An error occurred while adding the playlist to Spotify"
 				);
+				setSuccessfullAdd(false);
 			}
 		);
 	};
@@ -91,53 +93,70 @@ export default function Home() {
 								{playlistName}
 							</h2>
 						</div>
-						<Button
-							className='font-bold max-w-[200px] hidden lg:flex'
-							aria-label='Add to Spotify'
-						>
-							Add to Spotify
-							<Image
-								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
-								width={20}
-								height={20}
-								alt='Spotify'
-								className='ml-2'
-							/>
-						</Button>
-						<Button
-							onClick={addPlaylistToSpotify}
-							className='font-bold w-fit lg:hidden px-2'
-							aria-label='Add to Spotify'
-						>
-							<Plus className='size-4' />
-							<Image
-								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
-								width={16}
-								height={16}
-								alt='Spotify'
-								className='ml-2'
-							/>
-						</Button>
+						{successfullAdd ? (
+							<div className='h-9 px-4 py-2 font-bold lg:max-w-[200px] flex items-center justify-center bg-transparent border rounded-sm border-primary text-primary gap-2'>
+								<CheckCircleIcon className='size-4 text-primary' />
+								<span className='text-primary hidden lg:block'>
+									Success
+								</span>
+							</div>
+						) : (
+							<>
+								<Button
+									className='font-bold max-w-[200px] hidden lg:flex'
+									aria-label='Add to Spotify'
+								>
+									Add to Spotify
+									<Image
+										src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+										width={20}
+										height={20}
+										alt='Spotify'
+										className='ml-2'
+									/>
+								</Button>
+								<Button
+									onClick={addPlaylistToSpotify}
+									className='font-bold w-fit lg:hidden px-2'
+									aria-label='Add to Spotify'
+								>
+									<Plus className='size-4' />
+									<Image
+										src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+										width={16}
+										height={16}
+										alt='Spotify'
+										className='ml-2'
+									/>
+								</Button>
+							</>
+						)}
 					</div>
 				)}
-				<div className='w-full h-fit lg:h-1/3 lg:max-h-[400px] flex items-center lg:items-end p-4 gap-4 lg:gap-6'>
+				<div className='w-full h-fit lg:h-1/3 lg:max-h-[400px] flex items-center lg:items-end p-4 gap-4 lg:gap-6 bg-[url("/waves-bg.webp")] bg-cover bg-center bg-no-repeat bg-blend-overlay bg-[#00000090]'>
 					<div className='size-20 min-w-20 lg:size-40 lg:min-w-40 bg-black rounded-md'></div>
 					<div className='flex w-full flex-col gap-2'>
-						<Button
-							className='font-bold max-w-[200px] hidden lg:flex'
-							onClick={addPlaylistToSpotify}
-							aria-label='Add to Spotify'
-						>
-							Add to Spotify
-							<Image
-								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
-								width={20}
-								height={20}
-								alt='Spotify'
-								className='ml-2'
-							/>
-						</Button>
-
+						{successfullAdd ? (
+							<div className='h-9 px-4 py-2 font-bold max-w-[200px] hidden lg:flex items-center justify-center bg-transparent border rounded-sm border-primary text-primary gap-2'>
+								<CheckCircleIcon className='size-4 text-primary' />
+								<span className='text-primary'>Success</span>
+							</div>
+						) : (
+							<Button
+								className='font-bold max-w-[200px] hidden lg:flex'
+								onClick={addPlaylistToSpotify}
+								aria-label='Add to Spotify'
+							>
+								Add to Spotify
+								<Image
+									src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+									width={20}
+									height={20}
+									alt='Spotify'
+									className='ml-2'
+								/>
+							</Button>
+						)}
 						<h2 className='text-white text-2xl lg:text-5xl font-bold'>
 							{playlistName}
 						</h2>
@@ -154,20 +173,29 @@ export default function Home() {
 									)
 								)}
 							</p>
-							<Button
-								className='font-bold w-fit lg:hidden px-2'
-								onClick={addPlaylistToSpotify}
-								aria-label='Add to Spotify'
-							>
-								<Plus className='size-4' />
-								<Image
-									src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
-									width={16}
-									height={16}
-									alt='Spotify'
-									className='ml-2'
-								/>
-							</Button>
+							{successfullAdd ? (
+								<div className='h-9 px-4 py-2 font-bold lg:hidden flex items-center justify-center bg-transparent border rounded-sm border-primary text-primary gap-2'>
+									<CheckCircleIcon className='size-4 text-primary' />
+									<span className='text-primary hidden lg:block'>
+										Success
+									</span>
+								</div>
+							) : (
+								<Button
+									className='font-bold w-fit lg:hidden px-2'
+									onClick={addPlaylistToSpotify}
+									aria-label='Add to Spotify'
+								>
+									<Plus className='size-4' />
+									<Image
+										src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
+										width={16}
+										height={16}
+										alt='Spotify'
+										className='ml-2'
+									/>
+								</Button>
+							)}
 						</div>
 					</div>
 				</div>
