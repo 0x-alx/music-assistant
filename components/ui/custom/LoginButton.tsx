@@ -47,6 +47,7 @@ const LoginButton = () => {
 	} else {
 		return (
 			<Button
+				aria-label='Connect to Spotify'
 				onClick={connectToSpotify}
 				className='font-bold'
 			>

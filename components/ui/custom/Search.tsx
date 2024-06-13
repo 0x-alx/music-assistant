@@ -103,6 +103,7 @@ const Search = () => {
 				className='w-full border-none outline-none shadow-none focus:outline-none focus-visible:ring-0 focus:border-none text-black'
 			/>
 			<Button
+				aria-label='Generate playlist'
 				onClick={generatePlaylist}
 				disabled={isLoading || !session?.access_token}
 			>

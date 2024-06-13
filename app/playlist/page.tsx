@@ -91,7 +91,10 @@ export default function Home() {
 								{playlistName}
 							</h2>
 						</div>
-						<Button className='font-bold max-w-[200px] hidden lg:flex'>
+						<Button
+							className='font-bold max-w-[200px] hidden lg:flex'
+							aria-label='Add to Spotify'
+						>
 							Add to Spotify
 							<Image
 								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
@@ -101,7 +104,11 @@ export default function Home() {
 								className='ml-2'
 							/>
 						</Button>
-						<Button className='font-bold w-fit lg:hidden px-2'>
+						<Button
+							onClick={addPlaylistToSpotify}
+							className='font-bold w-fit lg:hidden px-2'
+							aria-label='Add to Spotify'
+						>
 							<Plus className='size-4' />
 							<Image
 								src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
@@ -119,6 +126,7 @@ export default function Home() {
 						<Button
 							className='font-bold max-w-[200px] hidden lg:flex'
 							onClick={addPlaylistToSpotify}
+							aria-label='Add to Spotify'
 						>
 							Add to Spotify
 							<Image
@@ -146,7 +154,11 @@ export default function Home() {
 									)
 								)}
 							</p>
-							<Button className='font-bold w-fit lg:hidden px-2'>
+							<Button
+								className='font-bold w-fit lg:hidden px-2'
+								onClick={addPlaylistToSpotify}
+								aria-label='Add to Spotify'
+							>
 								<Plus className='size-4' />
 								<Image
 									src='https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_White.png'
