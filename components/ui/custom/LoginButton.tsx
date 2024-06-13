@@ -26,7 +26,10 @@ const LoginButton = () => {
 			<DropdownMenu>
 				<DropdownMenuTrigger>
 					<Avatar>
-						<AvatarImage src={session?.user?.image || ""} />
+						<AvatarImage
+							src={session?.user?.image || ""}
+							alt='User avatar'
+						/>
 						<AvatarFallback>CN</AvatarFallback>
 					</Avatar>
 				</DropdownMenuTrigger>
