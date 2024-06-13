@@ -105,6 +105,7 @@ export default function Home() {
 								<Button
 									className='font-bold max-w-[200px] hidden lg:flex'
 									aria-label='Add to Spotify'
+									onClick={addPlaylistToSpotify}
 								>
 									Add to Spotify
 									<Image
