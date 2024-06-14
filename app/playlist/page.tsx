@@ -92,9 +92,16 @@ export default function Home() {
 				ref={scrollContainerRef}
 			>
 				{showTopBar && (
-					<div className='sticky top-0 w-full z-10 flex items-center justify-between p-4 gap-4 bg-[#F1EFE7]'>
+					<div className='sticky top-0 w-full z-10 flex items-center justify-between p-4 gap-4 bg-neutral-900 '>
 						<div className='flex items-center gap-4'>
-							<div className='size-8 bg-black rounded-md'></div>
+							<div className='size-8 bg-black rounded-md overflow-hidden'>
+								<Image
+									src='/playlist-thumbnail.jpeg'
+									alt='Playlist Thumbnail'
+									width={160}
+									height={160}
+								/>
+							</div>
 							<h2 className='text-white text-xl lg:text-3xl font-bold'>
 								{playlistName}
 							</h2>
